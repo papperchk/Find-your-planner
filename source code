@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        /* Checkbox Styles */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkbox-group label {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked + label {
+            background-color: #007BFF;
+            color: #fff;
+            border-color: #007BFF;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Results Section */
+        .results {
+            margin-top: 30px;
+        }
+
+        .planner {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .planner h3 {
+            color: #007BFF;
+        }
+
+        .planner p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .planner a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .planner a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Find Your Perfect Planner</h1>
+    
+    <div class="input-group">
+        <label>What problems are you facing?</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="time-management" value="Time Management">
+            <label for="time-management">Time Management</label>
+            
+            <input type="checkbox" id="task-overwhelm" value="Overwhelm with Tasks">
+            <label for="task-overwhelm">Overwhelm with Tasks</label>
+            
+            <input type="checkbox" id="work-life-balance" value="Work-Life Balance">
+            <label for="work-life-balance">Work-Life Balance</label>
+            
+            <input type="checkbox" id="health-goals" value="Health Goals">
+            <label for="health-goals">Health Goals</label>
+            
+            <input type="checkbox" id="financial-planning" value="Financial Planning">
+            <label for="financial-planning">Financial Planning</label>
+            
+            <input type="checkbox" id="long-term-goals" value="Long-term Goal Planning">
+            <label for="long-term-goals">Long-term Goal Planning</label>
+        </div>
+    </div>
+    
+    <button onclick="suggestPlanners()">Find My Planner</button>
+    
+    <div class="results" id="results">
+        <!-- Dynamic planner results will be displayed here -->
+    </div>
+</div>
+
+<script>
+    function suggestPlanners() {
+        // Get all selected checkboxes
+        const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+        const selectedProblems = Array.from(checkboxes).map(cb => cb.value);
+        
+        // Planner recommendations
+        const plannerSuggestions = {
+            "Time Management": {
+                name: "Time Block Planner",
+                description: "Helps you manage your day by blocking time for specific tasks. Ideal for people who want structured schedules.",
+                productLink: "https://example.com/time-block-planner"
+            },
+            "Overwhelm with Tasks": {
+                name: "Simplified Planner",
+                description: "Breaks down overwhelming tasks into manageable steps. Focus on priorities and avoid overloading your day.",
+                productLink: "https://example.com/simplified-planner"
+            },
+            "Work-Life Balance": {
+                name: "Balanced Life Planner",
+                description: "A planner that integrates both personal and professional life with weekly reflections to maintain balance.",
+                productLink: "https://example.com/balanced-life-planner"
+            },
+            "Health Goals": {
+                name: "Health & Wellness Planner",
+                description: "Track your fitness, diet, and health goals. A great tool for building healthier habits.",
+                productLink: "https://example.com/health-wellness-planner"
+            },
+            "Financial Planning": {
+                name: "Budget Tracker Planner",
+                description: "Helps you manage personal finances, track expenses, and set savings goals effectively.",
+                productLink: "https://example.com/budget-tracker-planner"
+            },
+            "Long-term Goal Planning": {
+                name: "Goal-Setter Planner",
+                description: "Breaks down long-term goals into manageable milestones, perfect for ambitious projects or personal growth.",
+                productLink: "https://example.com/goal-setter-planner"
+            }
+        };
+
+        // Clear previous results
+        const resultContainer = document.getElementById('results');
+        resultContainer.innerHTML = '';
+
+        // Display planner recommendations
+        selectedProblems.forEach(problem => {
+            if (plannerSuggestions[problem]) {
+                const planner = plannerSuggestions[problem];
+                resultContainer.innerHTML += `
+                    <div class="planner">
+                        <h3>${planner.name}</h3>
+                        <p>${planner.description}</p>
+                        <a href="${planner.productLink}" target="_blank">View Product</a>
+                    </div>
+                `;
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
